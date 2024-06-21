@@ -26,11 +26,11 @@ import java.time.LocalDate
 @Composable
 fun DashboardScreen() {
     val subjects = listOf(
-        Subject(name = "English", goalHours = 10f, colors = Subject.subjectCardColors[0]),
-        Subject(name = "Physics", goalHours = 10f, colors = Subject.subjectCardColors[1]),
-        Subject(name = "Maths", goalHours = 10f, colors = Subject.subjectCardColors[2]),
-        Subject(name = "ICT", goalHours = 10f, colors = Subject.subjectCardColors[3]),
-        Subject(name = "BIO", goalHours = 10f, colors = Subject.subjectCardColors[4]),
+        Subject(name = "English", goalHours = 10f, colors = Subject.subjectCardColors[0], subjectId = 0),
+        Subject(name = "Physics", goalHours = 10f, colors = Subject.subjectCardColors[1],subjectId = 0),
+        Subject(name = "Maths", goalHours = 10f, colors = Subject.subjectCardColors[2],subjectId = 0),
+        Subject(name = "ICT", goalHours = 10f, colors = Subject.subjectCardColors[3],subjectId = 0),
+        Subject(name = "BIO", goalHours = 10f, colors = Subject.subjectCardColors[4],subjectId = 0),
     )
 
     val tasks = listOf(
@@ -40,31 +40,39 @@ fun DashboardScreen() {
             dueDate = 0L,
             priority = 0,
             relatedToSubject = "",
-            isComplete = false
+            isComplete = false,
+            taskSubjectId = 0,
+            taskId =  1
         ),
         Task(
             title = "Do Homework",
             description = "",
             dueDate = 0L,
-            priority = 0,
+            priority = 1,
             relatedToSubject = "",
-            isComplete = false
+            isComplete = false,
+            taskSubjectId = 0,
+            taskId =  1
         ),
         Task(
             title = "Go Coaching",
             description = "",
             dueDate = 0L,
-            priority = 0,
+            priority = 2,
             relatedToSubject = "",
-            isComplete = false
+            isComplete = false,
+            taskSubjectId = 0,
+            taskId =  1
         ),
         Task(
             title = "Assignment",
             description = "",
             dueDate = 0L,
-            priority = 0,
+            priority = 1,
             relatedToSubject = "",
-            isComplete = false
+            isComplete = false,
+            taskSubjectId = 0,
+            taskId =  1
         ),
         Task(
             title = "Write Poem",
@@ -72,7 +80,9 @@ fun DashboardScreen() {
             dueDate = 0L,
             priority = 0,
             relatedToSubject = "",
-            isComplete = true
+            isComplete = true,
+            taskSubjectId = 0,
+            taskId =  1
         )
     )
 
@@ -115,7 +125,9 @@ fun DashboardScreen() {
             taskList(
                 sectionTitle = "UPCOMING TASKS",
                 emptyListText = "You don't have any tasks.\nClick the + button in subject screen to add new task",
-                tasks = tasks
+                tasks = tasks,
+                onCheckBoxClick = {},
+                onTaskCardClick = {}
             )
         }
     }

@@ -19,11 +19,14 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.example.studysmart.R
 import com.example.studysmart.domain.model.Task
+import com.example.studysmart.util.Priority
 
 fun LazyListScope.taskList(
     sectionTitle: String,
     tasks: List<Task>,
     emptyListText: String,
+    onTaskCardClick:(Int) -> Unit,
+    onCheckBoxClick: (Task) -> Unit
 ) {
     item {
         Text(
@@ -61,7 +64,7 @@ fun LazyListScope.taskList(
                 modifier = Modifier.padding(horizontal = 12.dp, vertical = 4.dp),
                 task = task,
                 onCheckBoxClick = {},
-                onClick = {}
+                onClick = {onTaskCardClick(task.taskId)}
             )
         }
     }
@@ -78,11 +81,11 @@ private fun TaskCard(
         modifier = modifier.clickable { onClick() }
     ) {
         Row(
-            modifier = Modifier.padding(12.dp)
+            modifier = Modifier.padding(8.dp)
         ) {
             TaskCheckBox(
                 isCompleted = task.isComplete,
-                borderColor = Color.Black,
+                borderColor = Priority.fromInt(task.priority).color,
                 onCheckBoxClick = { onCheckBoxClick(task.isComplete) }
             )
             Spacer(modifier = Modifier.width(4.dp))
