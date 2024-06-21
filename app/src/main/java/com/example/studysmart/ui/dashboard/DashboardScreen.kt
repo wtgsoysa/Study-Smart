@@ -17,8 +17,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.studysmart.R
 import com.example.studysmart.domain.model.Subject
+import com.example.studysmart.domain.model.Task
 import com.example.studysmart.ui.components.CountCard
 import com.example.studysmart.ui.components.SubjectCard
+import com.example.studysmart.ui.components.taskList
+import java.time.LocalDate
 
 @Composable
 fun DashboardScreen() {
@@ -29,6 +32,50 @@ fun DashboardScreen() {
         Subject(name = "ICT", goalHours = 10f, colors = Subject.subjectCardColors[3]),
         Subject(name = "BIO", goalHours = 10f, colors = Subject.subjectCardColors[4]),
     )
+
+    val tasks = listOf(
+        Task(
+            title = "Prepare notes",
+            description = "",
+            dueDate = 0L,
+            priority = 0,
+            relatedToSubject = "",
+            isComplete = false
+        ),
+        Task(
+            title = "Do Homework",
+            description = "",
+            dueDate = 0L,
+            priority = 0,
+            relatedToSubject = "",
+            isComplete = false
+        ),
+        Task(
+            title = "Go Coaching",
+            description = "",
+            dueDate = 0L,
+            priority = 0,
+            relatedToSubject = "",
+            isComplete = false
+        ),
+        Task(
+            title = "Assignment",
+            description = "",
+            dueDate = 0L,
+            priority = 0,
+            relatedToSubject = "",
+            isComplete = false
+        ),
+        Task(
+            title = "Write Poem",
+            description = "",
+            dueDate = 0L,
+            priority = 0,
+            relatedToSubject = "",
+            isComplete = true
+        )
+    )
+
     Scaffold(
         topBar = {
             DashboardScreenTopBar()
@@ -52,9 +99,24 @@ fun DashboardScreen() {
             item {
                 SubjectCardsSection(
                     modifier = Modifier.fillMaxSize(),
-                    subjectList = subjects // Replace with actual subject list
+                    subjectList = subjects
                 )
             }
+            item {
+                Button(
+                    onClick = { /*TODO*/ },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 48.dp, vertical = 20.dp)
+                ) {
+                    Text(text = "Start Study Session")
+                }
+            }
+            taskList(
+                sectionTitle = "UPCOMING TASKS",
+                emptyListText = "You don't have any tasks.\nClick the + button in subject screen to add new task",
+                tasks = tasks
+            )
         }
     }
 }
@@ -104,7 +166,7 @@ private fun CountCardSection(
 private fun SubjectCardsSection(
     modifier: Modifier,
     subjectList: List<Subject>,
-    emptyListText: String = "You don't have any subject. \n Click the + button to add new subject."
+    emptyListText: String = "You don't have any subject.\nClick the + button to add new subject."
 ) {
     Column(modifier = modifier) {
         Row(
@@ -117,7 +179,7 @@ private fun SubjectCardsSection(
                 style = MaterialTheme.typography.bodySmall,
                 modifier = Modifier.padding(12.dp)
             )
-            IconButton(onClick = {  }) {
+            IconButton(onClick = { }) {
                 Icon(
                     imageVector = Icons.Default.Add,
                     contentDescription = "Add Subject"
