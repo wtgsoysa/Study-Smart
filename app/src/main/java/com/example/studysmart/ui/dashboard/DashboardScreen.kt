@@ -16,10 +16,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.studysmart.R
+import com.example.studysmart.domain.model.Session
 import com.example.studysmart.domain.model.Subject
 import com.example.studysmart.domain.model.Task
 import com.example.studysmart.ui.components.CountCard
 import com.example.studysmart.ui.components.SubjectCard
+import com.example.studysmart.ui.components.studySessionList
 import com.example.studysmart.ui.components.taskList
 import java.time.LocalDate
 
@@ -86,6 +88,44 @@ fun DashboardScreen() {
         )
     )
 
+    val session = listOf(
+        Session(
+            relatedToSubject = "English",
+            date = 0L,
+            duration = 2,
+            sessionSubjectId = 0,
+            sessionId = 0
+        ),
+        Session(
+            relatedToSubject = "Physics",
+            date = 0L,
+            duration = 2,
+            sessionSubjectId = 0,
+            sessionId = 0
+        ),
+        Session(
+            relatedToSubject = "Maths",
+            date = 0L,
+            duration = 2,
+            sessionSubjectId = 0,
+            sessionId = 0
+        ),
+        Session(
+            relatedToSubject = "ICT",
+            date = 0L,
+            duration = 2,
+            sessionSubjectId = 0,
+            sessionId = 0
+        ),
+        Session(
+            relatedToSubject = "BIO",
+            date = 0L,
+            duration = 2,
+            sessionSubjectId = 0,
+            sessionId = 0
+        ),
+    )
+
     Scaffold(
         topBar = {
             DashboardScreenTopBar()
@@ -128,6 +168,12 @@ fun DashboardScreen() {
                 tasks = tasks,
                 onCheckBoxClick = {},
                 onTaskCardClick = {}
+            )
+            studySessionList(
+                sectionTitle = "Recent Study Session",
+                emptyListText = "You don't have any student session.\n " + "Start a study session to begin recording your progress",
+                sessions = session,
+                onDeleteIconClick = {}
             )
         }
     }
