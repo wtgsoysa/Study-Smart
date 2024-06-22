@@ -35,7 +35,7 @@ fun DashboardScreen() {
 
     val tasks = listOf(
         Task(
-            title = "Prepare notes",
+            title = "Solve five math problems quickly",
             description = "",
             dueDate = 0L,
             priority = 0,
@@ -45,7 +45,7 @@ fun DashboardScreen() {
             taskId =  1
         ),
         Task(
-            title = "Do Homework",
+            title = "Create a simple science experiment.",
             description = "",
             dueDate = 0L,
             priority = 1,
@@ -55,7 +55,7 @@ fun DashboardScreen() {
             taskId =  1
         ),
         Task(
-            title = "Go Coaching",
+            title = "Describe your favorite book character.",
             description = "",
             dueDate = 0L,
             priority = 2,
@@ -65,7 +65,7 @@ fun DashboardScreen() {
             taskId =  1
         ),
         Task(
-            title = "Assignment",
+            title = "Research a famous historical event.",
             description = "",
             dueDate = 0L,
             priority = 1,
@@ -75,7 +75,7 @@ fun DashboardScreen() {
             taskId =  1
         ),
         Task(
-            title = "Write Poem",
+            title = "Summarize today's main news headlines.",
             description = "",
             dueDate = 0L,
             priority = 0,

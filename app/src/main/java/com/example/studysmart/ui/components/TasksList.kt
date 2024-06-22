@@ -79,6 +79,8 @@ private fun TaskCard(
 ) {
     ElevatedCard(
         modifier = modifier.clickable { onClick() }
+            .width(320.dp) // Set a fixed width
+            .height(60.dp)
     ) {
         Row(
             modifier = Modifier.padding(8.dp)
@@ -97,9 +99,9 @@ private fun TaskCard(
                     style = MaterialTheme.typography.titleMedium,
                     textDecoration = if (task.isComplete) {
                         TextDecoration.LineThrough
-                    } else {
+                    } else
                         TextDecoration.None
-                    }
+
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
