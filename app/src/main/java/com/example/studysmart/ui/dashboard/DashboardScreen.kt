@@ -9,6 +9,11 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -19,6 +24,7 @@ import com.example.studysmart.R
 import com.example.studysmart.domain.model.Session
 import com.example.studysmart.domain.model.Subject
 import com.example.studysmart.domain.model.Task
+import com.example.studysmart.ui.components.AddSubjectDialog
 import com.example.studysmart.ui.components.CountCard
 import com.example.studysmart.ui.components.SubjectCard
 import com.example.studysmart.ui.components.studySessionList
@@ -126,6 +132,31 @@ fun DashboardScreen() {
         ),
     )
 
+    var isAddSubjectDialogOpen by rememberSaveable {mutableStateOf(false)}
+
+    var subjectName by remember {mutableStateOf("")}
+    var goalHours by remember {mutableStateOf("")}
+    var selectedColor by remember {mutableStateOf(Subject.subjectCardColors.random())}
+
+
+    AddSubjectDialog(
+        isOpen = isAddSubjectDialogOpen,
+        subjectName = subjectName,
+        goalHours = goalHours,
+        onSubjectNameChange ={subjectName = it} ,
+        onGoalHoursChange = {goalHours = it},
+        selectedColor = selectedColor ,
+        onColorChange = {selectedColor = it} ,
+        onDismissRequest = { isAddSubjectDialogOpen = false },
+        onConfirmButtonClick = {
+            isAddSubjectDialogOpen = false
+        }
+
+    )
+
+
+
+
     Scaffold(
         topBar = {
             DashboardScreenTopBar()
@@ -149,7 +180,10 @@ fun DashboardScreen() {
             item {
                 SubjectCardsSection(
                     modifier = Modifier.fillMaxSize(),
-                    subjectList = subjects
+                    subjectList = subjects,
+                    onAddIconClicked = {
+                        isAddSubjectDialogOpen = true
+                    }
                 )
             }
             item {
@@ -224,8 +258,9 @@ private fun CountCardSection(
 private fun SubjectCardsSection(
     modifier: Modifier,
     subjectList: List<Subject>,
-    emptyListText: String = "You don't have any subject.\nClick the + button to add new subject."
-) {
+    emptyListText: String = "You don't have any subject.\nClick the + button to add new subject.",
+    onAddIconClicked: () -> Unit
+){
     Column(modifier = modifier) {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -237,7 +272,7 @@ private fun SubjectCardsSection(
                 style = MaterialTheme.typography.bodySmall,
                 modifier = Modifier.padding(12.dp)
             )
-            IconButton(onClick = { }) {
+            IconButton(onClick = onAddIconClicked) {
                 Icon(
                     imageVector = Icons.Default.Add,
                     contentDescription = "Add Subject"
