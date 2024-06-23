@@ -138,7 +138,6 @@ fun DashboardScreen() {
     var goalHours by remember {mutableStateOf("")}
     var selectedColor by remember {mutableStateOf(Subject.subjectCardColors.random())}
 
-
     AddSubjectDialog(
         isOpen = isAddSubjectDialogOpen,
         subjectName = subjectName,
@@ -153,6 +152,8 @@ fun DashboardScreen() {
         }
 
     )
+
+
 
 
 

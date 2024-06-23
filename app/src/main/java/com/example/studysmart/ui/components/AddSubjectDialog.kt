@@ -20,6 +20,10 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
@@ -41,6 +45,23 @@ fun AddSubjectDialog(
     onDismissRequest: () -> Unit,
     onConfirmButtonClick: () -> Unit
 ) {
+    var subjectNameError by rememberSaveable { mutableStateOf<String?>(null) }
+    var goalHoursError by rememberSaveable { mutableStateOf<String?>(null) }
+
+    subjectNameError = when {
+        subjectName.isBlank() -> "Please Enter Subject Name."
+        subjectName.length > 20 -> "Subject Name Is Too Long"
+        subjectName.length < 2 -> "Subject Name Is Too Short"
+        else -> null
+    }
+
+    goalHoursError = when {
+        goalHours.isBlank() -> "Please Enter Goal Study Hours."
+        goalHours.toFloatOrNull() == null -> "Invalid Number"
+        goalHours.toFloat() < 1f -> "Please Set At Least 1 Hour."
+        goalHours.toFloat() > 1000f -> "Please Se A Maximum Of 1000 Hours"
+        else -> null
+    }
     if (isOpen) {
         AlertDialog(
             onDismissRequest = onDismissRequest,
@@ -60,9 +81,9 @@ fun AddSubjectDialog(
                                     .clip(CircleShape)
                                     .border(
                                         width = 1.dp,
-                                        color =if (color == selectedColor){
+                                        color = if (color == selectedColor) {
                                             Color.Black
-                                        }  else Color.Transparent,
+                                        } else Color.Transparent,
                                         shape = CircleShape
                                     )
                                     .background(brush = Brush.verticalGradient(color))
@@ -74,7 +95,9 @@ fun AddSubjectDialog(
                         value = subjectName,
                         onValueChange = onSubjectNameChange,
                         label = { Text(text = "Subject Name") },
-                        singleLine = true
+                        singleLine = true,
+                        isError = subjectNameError != null && subjectName.isNotBlank(),
+                        supportingText = { Text(text = subjectNameError.orEmpty()) }
                     )
                     Spacer(modifier = Modifier.height(10.dp))
                     OutlinedTextField(
@@ -82,20 +105,27 @@ fun AddSubjectDialog(
                         onValueChange = onGoalHoursChange,
                         label = { Text(text = "Goal Study Hours") },
                         singleLine = true,
-                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                        isError = goalHoursError != null && goalHours.isNotBlank(),
+                        supportingText = { Text(text = goalHoursError.orEmpty()) }
                     )
-                }
-            },
-            confirmButton = {
-                TextButton(onClick = onConfirmButtonClick) {
-                    Text(text = "Save")
                 }
             },
             dismissButton = {
                 TextButton(onClick = onDismissRequest) {
                     Text(text = "Cancel")
                 }
-            }
-        )
+            },
+            confirmButton = {
+                TextButton(
+                    onClick = onConfirmButtonClick,
+                    enabled = subjectNameError == null && goalHoursError == null
+                ) {
+                    Text(text = "Save")
+                }
+            },
+
+            )
     }
 }
+
