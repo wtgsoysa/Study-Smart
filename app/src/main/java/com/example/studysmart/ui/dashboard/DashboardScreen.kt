@@ -24,6 +24,9 @@ import com.example.studysmart.R
 import com.example.studysmart.domain.model.Session
 import com.example.studysmart.domain.model.Subject
 import com.example.studysmart.domain.model.Task
+import com.example.studysmart.session
+import com.example.studysmart.subjects
+import com.example.studysmart.tasks
 import com.example.studysmart.ui.components.AddSubjectDialog
 import com.example.studysmart.ui.components.CountCard
 import com.example.studysmart.ui.components.DeleteDialog
@@ -34,104 +37,7 @@ import java.time.LocalDate
 
 @Composable
 fun DashboardScreen() {
-    val subjects = listOf(
-        Subject(name = "English", goalHours = 10f, colors = Subject.subjectCardColors[0], subjectId = 0),
-        Subject(name = "Physics", goalHours = 10f, colors = Subject.subjectCardColors[1],subjectId = 0),
-        Subject(name = "Maths", goalHours = 10f, colors = Subject.subjectCardColors[2],subjectId = 0),
-        Subject(name = "ICT", goalHours = 10f, colors = Subject.subjectCardColors[3],subjectId = 0),
-        Subject(name = "BIO", goalHours = 10f, colors = Subject.subjectCardColors[4],subjectId = 0),
-    )
 
-    val tasks = listOf(
-        Task(
-            title = "Solve five math problems quickly",
-            description = "",
-            dueDate = 0L,
-            priority = 0,
-            relatedToSubject = "",
-            isComplete = false,
-            taskSubjectId = 0,
-            taskId =  1
-        ),
-        Task(
-            title = "Create a simple science experiment.",
-            description = "",
-            dueDate = 0L,
-            priority = 1,
-            relatedToSubject = "",
-            isComplete = false,
-            taskSubjectId = 0,
-            taskId =  1
-        ),
-        Task(
-            title = "Describe your favorite book character.",
-            description = "",
-            dueDate = 0L,
-            priority = 2,
-            relatedToSubject = "",
-            isComplete = false,
-            taskSubjectId = 0,
-            taskId =  1
-        ),
-        Task(
-            title = "Research a famous historical event.",
-            description = "",
-            dueDate = 0L,
-            priority = 1,
-            relatedToSubject = "",
-            isComplete = false,
-            taskSubjectId = 0,
-            taskId =  1
-        ),
-        Task(
-            title = "Summarize today's main news headlines.",
-            description = "",
-            dueDate = 0L,
-            priority = 0,
-            relatedToSubject = "",
-            isComplete = true,
-            taskSubjectId = 0,
-            taskId =  1
-        )
-    )
-
-    val session = listOf(
-        Session(
-            relatedToSubject = "English",
-            date = 0L,
-            duration = 2,
-            sessionSubjectId = 0,
-            sessionId = 0
-        ),
-        Session(
-            relatedToSubject = "Physics",
-            date = 0L,
-            duration = 2,
-            sessionSubjectId = 0,
-            sessionId = 0
-        ),
-        Session(
-            relatedToSubject = "Maths",
-            date = 0L,
-            duration = 2,
-            sessionSubjectId = 0,
-            sessionId = 0
-        ),
-        Session(
-            relatedToSubject = "ICT",
-            date = 0L,
-            duration = 2,
-            sessionSubjectId = 0,
-            sessionId = 0
-        ),
-        Session(
-            relatedToSubject = "BIO",
-            date = 0L,
-            duration = 2,
-            sessionSubjectId = 0,
-            sessionId = 0
-        ),
-    )
 
     var isAddSubjectDialogOpen by rememberSaveable {mutableStateOf(false)}
     var isDeleteSessionDialogOpen by rememberSaveable {mutableStateOf(false)}
