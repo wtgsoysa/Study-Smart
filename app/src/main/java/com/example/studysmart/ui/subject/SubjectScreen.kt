@@ -32,43 +32,93 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.input.nestedscroll.nestedScroll
+import com.example.studysmart.domain.model.Subject
 import com.example.studysmart.session
 import com.example.studysmart.tasks
+import com.example.studysmart.ui.components.AddSubjectDialog
 import com.example.studysmart.ui.components.CountCard
+import com.example.studysmart.ui.components.DeleteDialog
 import com.example.studysmart.ui.components.studySessionList
 import com.example.studysmart.ui.components.taskList
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SubjectScreen() {
+    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
     val listState = rememberLazyListState()
-    val isFABExtended by remember {  derivedStateOf { listState.firstVisibleItemIndex == 0 }}
+    val isFABExtended by remember { derivedStateOf { listState.firstVisibleItemIndex == 0 } }
 
+    var isAddSubjectDialogOpen by rememberSaveable { mutableStateOf(false) }
+    var isDeleteSubjectDialogOpen by rememberSaveable { mutableStateOf(false) }
+    var isDeleteSessionDialogOpen by rememberSaveable { mutableStateOf(false) }
+    var isEditSubjectDialogOpen by rememberSaveable { mutableStateOf(false) }
+
+    var subjectName by remember { mutableStateOf("") }
+    var goalHours by remember { mutableStateOf("") }
+    var selectedColor by remember { mutableStateOf(Subject.subjectCardColors.random()) }
+
+    AddSubjectDialog(
+        isOpen = isAddSubjectDialogOpen,
+        subjectName = subjectName,
+        goalHours = goalHours,
+        onSubjectNameChange = { subjectName = it },
+        onGoalHoursChange = { goalHours = it },
+        selectedColor = selectedColor,
+        onColorChange = { selectedColor = it },
+        onDismissRequest = { isAddSubjectDialogOpen = false },
+        onConfirmButtonClick = {
+            isAddSubjectDialogOpen = false
+        }
+    )
+
+    DeleteDialog(
+        isOpen = isDeleteSubjectDialogOpen,
+        title = "Delete Subject?",
+        bodyText = "Are you sure you want to delete this subject? All related tasks and study sessions will be deleted.",
+        onDismissRequest = { isDeleteSubjectDialogOpen = false },
+        onConfirmButtonClick = { isDeleteSubjectDialogOpen = false }
+    )
+
+    DeleteDialog(
+        isOpen = isDeleteSessionDialogOpen,
+        title = "Delete Session?",
+        bodyText = "Are you sure you want to delete this session? Your studied hours will be reduced by this session time. This action cannot be undone.",
+        onDismissRequest = { isDeleteSessionDialogOpen = false },
+        onConfirmButtonClick = { isDeleteSessionDialogOpen = false }
+    )
 
     Scaffold(
+        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             SubjectScreenTopBar(
                 title = "English",
                 onBackButtonClick = { },
-                onDeleteButtonClick = { },
-                onEditButtonClick = { }
+                onDeleteButtonClick = { isDeleteSubjectDialogOpen = true },
+                onEditButtonClick = { isEditSubjectDialogOpen = true },
+                scrollBehavior = scrollBehavior
             )
         },
         floatingActionButton = {
             ExtendedFloatingActionButton(
-            onClick = {/*Todo*/},
-            icon = {Icon(imageVector = Icons.Default.Add, contentDescription = "Add")},
-            text = {Text(text = "Add Task")},
-            expanded =  isFABExtended
-
-
+                onClick = { /* TODO */ },
+                icon = { Icon(imageVector = Icons.Default.Add, contentDescription = "Add") },
+                text = { Text(text = "Add Task") },
+                expanded = isFABExtended
             )
         }
     ) { paddingValues ->
         LazyColumn(
+            state = listState,
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
@@ -85,7 +135,7 @@ fun SubjectScreen() {
             }
             taskList(
                 sectionTitle = "UPCOMING TASKS",
-                emptyListText = "You don't have any tasks.\nClick the + button to add new task",
+                emptyListText = "You don't have any tasks.\nClick the + button to add a new task",
                 tasks = tasks,
                 onCheckBoxClick = {},
                 onTaskCardClick = {}
@@ -105,9 +155,9 @@ fun SubjectScreen() {
             }
             studySessionList(
                 sectionTitle = "Recent Study Session",
-                emptyListText = "You don't have any student session.\n " + "Start a study session to begin recording your progress",
+                emptyListText = "You don't have any study sessions.\nStart a study session to begin recording your progress.",
                 sessions = session,
-                onDeleteIconClick = {}
+                onDeleteIconClick = { isDeleteSessionDialogOpen = true }
             )
         }
     }
@@ -119,9 +169,11 @@ private fun SubjectScreenTopBar(
     title: String,
     onBackButtonClick: () -> Unit,
     onDeleteButtonClick: () -> Unit,
-    onEditButtonClick: () -> Unit
+    onEditButtonClick: () -> Unit,
+    scrollBehavior: TopAppBarScrollBehavior
 ) {
     LargeTopAppBar(
+        scrollBehavior = scrollBehavior,
         navigationIcon = {
             IconButton(onClick = onBackButtonClick) {
                 Icon(
