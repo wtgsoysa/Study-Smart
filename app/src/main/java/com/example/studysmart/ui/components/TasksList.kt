@@ -25,7 +25,7 @@ fun LazyListScope.taskList(
     sectionTitle: String,
     tasks: List<Task>,
     emptyListText: String,
-    onTaskCardClick:(Int) -> Unit,
+    onTaskCardClick: (Int) -> Unit,
     onCheckBoxClick: (Task) -> Unit
 ) {
     item {
@@ -63,8 +63,8 @@ fun LazyListScope.taskList(
             TaskCard(
                 modifier = Modifier.padding(horizontal = 12.dp, vertical = 4.dp),
                 task = task,
-                onCheckBoxClick = {},
-                onClick = {onTaskCardClick(task.taskId)}
+                onCheckBoxClick = { onCheckBoxClick(task) },
+                onClick = { onTaskCardClick(task.taskId) }
             )
         }
     }
@@ -99,9 +99,9 @@ private fun TaskCard(
                     style = MaterialTheme.typography.titleMedium,
                     textDecoration = if (task.isComplete) {
                         TextDecoration.LineThrough
-                    } else
+                    } else {
                         TextDecoration.None
-
+                    }
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
