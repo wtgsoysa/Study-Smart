@@ -46,10 +46,13 @@ import com.example.studysmart.subjects
 import com.example.studysmart.ui.components.DeleteDialog
 import com.example.studysmart.ui.components.SubjectListBottomSheet
 import com.example.studysmart.ui.components.TaskCheckBox
+import com.example.studysmart.ui.components.TaskDatePicker
 
 import com.example.studysmart.ui.theme.Red
 import com.example.studysmart.util.Priority
+import com.example.studysmart.util.changeMillisToDate
 import kotlinx.coroutines.launch
+import java.time.Instant
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -57,7 +60,9 @@ fun TaskScreen() {
 
     var isDeleteDialogOpen by rememberSaveable { mutableStateOf(false) }
     var isDatePickerDialogOpen by rememberSaveable { mutableStateOf(false) }
-    val datePickerState = rememberDatePickerState()
+    val datePickerState = rememberDatePickerState(
+        initialSelectedDateMillis = Instant.now().toEpochMilli()
+    )
 
     val scope = rememberCoroutineScope()
     val sheetState = rememberModalBottomSheetState()
@@ -91,6 +96,18 @@ fun TaskScreen() {
         }
 
     )
+
+    TaskDatePicker(
+        state = datePickerState ,
+        isOpen = isDatePickerDialogOpen,
+        onDismissRequest = {isDatePickerDialogOpen = false},
+        onConfirmButtonClicked = {
+            isDatePickerDialogOpen = false
+        }
+    )
+
+
+
     
     SubjectListBottomSheet(
         sheetState = sheetState,
@@ -157,7 +174,7 @@ fun TaskScreen() {
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "03 July, 2024",
+                    text = datePickerState.selectedDateMillis.changeMillisToDate(),
                     style = MaterialTheme.typography.bodyLarge
                 )
                 IconButton(onClick = { isDatePickerDialogOpen = true }) {
