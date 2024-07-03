@@ -92,7 +92,7 @@ private fun StudySessionCard(
     Card(
         modifier = modifier
             .width(320.dp) // Set a fixed width
-            .height(60.dp)
+            .height(40.dp)
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),

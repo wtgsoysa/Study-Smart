@@ -15,6 +15,7 @@ import com.example.studysmart.domain.model.Session
 import com.example.studysmart.domain.model.Subject
 import com.example.studysmart.domain.model.Task
 import com.example.studysmart.ui.dashboard.DashboardScreen
+import com.example.studysmart.ui.session.SessionScreen
 import com.example.studysmart.ui.subject.SubjectScreen
 import com.example.studysmart.ui.task.TaskScreen
 
@@ -24,7 +25,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            TaskScreen()
+            SessionScreen()
         }
     }
 }
